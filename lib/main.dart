@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:med_sci_library/settings.dart'; // Make sure this file exists
+import 'package:med_sci_library/settings.dart';
+import 'package:med_sci_library/new_acquisitions.dart';
+import 'package:med_sci_library/book_details.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,10 +21,23 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       home: const MainScreen(),
-      routes: {'/settings': (context) => const SettingsPage()},
+      routes: {
+        '/settings': (context) => const SettingsPage(),
+        '/home': (context) => const MainScreen(),
+      },
     );
   }
 }
+
+final List<Map<String, String>> books = [
+  {'title': 'Book 1', 'author': 'Author 1', 'image': 'assets/images/aha.jpg'},
+  {
+    'title': 'Book 2',
+    'author': 'Author 2',
+    'image': 'assets/images/Aquaculture.jpg',
+  },
+  {'title': 'Book 3', 'author': 'Author 2', 'image': 'assets/images/ASHP.jpg'},
+];
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -35,8 +50,8 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const MainScreen(),
-    Center(child: Text("Saved Page")), // Placeholder
+    const HomePage(), // ✅ Use new HomePage widget here
+    Center(child: Text("Saved Page")),
     const SettingsPage(),
   ];
 
@@ -51,7 +66,7 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Color(0xFFD92095),
+        selectedItemColor: const Color(0xFFD92095),
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -63,6 +78,189 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Settings',
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // Centered UWI logo and profile icon in the same row
+            Row(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/UWI_Logo.png',
+                      width: 100,
+                    ),
+                  ),
+                ),
+                CircleAvatar(
+                  radius: 24,
+                  backgroundImage: AssetImage(
+                    'assets/images/istockphoto-1444077739-612x612.jpg',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+
+            // Title
+            const Text(
+              'The Medical Sciences Library',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
+                fontFamily: "Inter",
+              ),
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 30),
+
+            // Section: Outstanding Books
+            const Align(
+              alignment: Alignment.center,
+              child: Text(
+                'Your Outstanding Books',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: "Inter",
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 140,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children:
+                    books.map((book) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 12),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => BookDetails(
+                                      title: book['title']!,
+                                      author: book['author']!,
+                                      image: book['image']!,
+                                    ),
+                              ),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.asset(
+                              book['image']!,
+                              width: 90,
+                              height: 130,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Section: New Acquisitions
+            const Align(
+              alignment: Alignment.center,
+              child: Text(
+                'New Acquisitions',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: "Inter",
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 12),
+            GridView.count(
+              crossAxisCount: 3, // 3 in a row
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              childAspectRatio:
+                  0.6, // Make the box a bit taller for book covers
+              children:
+                  const [
+                    'assets/images/AtlasHistology.jpg',
+                    'assets/images/ConciseMedicalDictionary.jpg',
+                    'assets/images/ConnsCurrentTherapy.jpg',
+                    'assets/images/CostofWar.jpg',
+                    'assets/images/DorlandsIllustrated.jpg',
+                    'assets/images/ECGmadeeasy.jpg',
+                  ].map((path) {
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        color: Colors.grey[200],
+                        child: Image.asset(
+                          path,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 140,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+            ),
+
+            const SizedBox(height: 20),
+
+            // Button
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFD92095),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 40,
+                    vertical: 12,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+                onPressed: () {
+                  // Navigate to the full list of new acquisitions
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const NewAcquisitionsPage(),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'See Full List',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
