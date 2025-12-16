@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 final List<Map<String, String>> books = [
-  {'title': 'Book 1', 'author': 'Author 1', 'image': 'assets/images/aha.jpg'},
   {
-    'title': 'Book 2',
-    'author': 'Author 2',
+    'title': '2024 AHA Guide',
+    'author': 'American Hospital Association',
+    'image': 'assets/images/aha.jpg',
+  },
+  {
+    'title': 'Aquaculture Microbiology',
+    'author': 'John Thomas',
     'image': 'assets/images/Aquaculture.jpg',
   },
-  {'title': 'Book 3', 'author': 'Author 2', 'image': 'assets/images/ASHP.jpg'},
+  {
+    'title': 'ASHP Injectable Drug Information',
+    'author': 'Author 2',
+    'image': 'assets/images/ASHP.jpg',
+  },
 ];
 
 class NewAcquisitionsPage extends StatelessWidget {

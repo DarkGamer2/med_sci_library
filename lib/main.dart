@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:med_sci_library/settings.dart';
 import 'package:med_sci_library/new_acquisitions.dart';
 import 'package:med_sci_library/book_details.dart';
+import 'package:med_sci_library/services.dart';
+import 'package:med_sci_library/student_details.dart';
+import 'package:med_sci_library/resources.dart';
 
 void main() {
   runApp(const MyApp());
@@ -24,19 +27,28 @@ class MyApp extends StatelessWidget {
       routes: {
         '/settings': (context) => const SettingsPage(),
         '/home': (context) => const MainScreen(),
+        '/services': (context) => const ServicesPage(),
       },
     );
   }
 }
 
 final List<Map<String, String>> books = [
-  {'title': 'Book 1', 'author': 'Author 1', 'image': 'assets/images/aha.jpg'},
   {
-    'title': 'Book 2',
-    'author': 'Author 2',
+    'title': '2024 AHA Guide',
+    'author': 'American Hospital Association',
+    'image': 'assets/images/aha.jpg',
+  },
+  {
+    'title': 'Aquaculture Microbiology',
+    'author': 'John Thomas',
     'image': 'assets/images/Aquaculture.jpg',
   },
-  {'title': 'Book 3', 'author': 'Author 2', 'image': 'assets/images/ASHP.jpg'},
+  {
+    'title': 'ASHP Injectable Drug Information',
+    'author': 'Author 2',
+    'image': 'assets/images/ASHP.jpg',
+  },
 ];
 
 class MainScreen extends StatefulWidget {
@@ -51,7 +63,8 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomePage(), // ✅ Use new HomePage widget here
-    Center(child: Text("Saved Page")),
+    const Resources(), // ✅ Use existing Resources widget
+    const ServicesPage(), // ✅ Use existing ServicesPage widget
     const SettingsPage(),
   ];
 
@@ -72,7 +85,11 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Saved'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark),
+            label: 'Resources',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.book), label: 'Services'),
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
@@ -105,11 +122,19 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                CircleAvatar(
-                  radius: 24,
-                  backgroundImage: AssetImage(
-                    'assets/images/istockphoto-1444077739-612x612.jpg',
+                IconButton(
+                  icon: CircleAvatar(
+                    radius: 24,
+                    backgroundImage: AssetImage(
+                      'assets/images/istockphoto-1444077739-612x612.jpg',
+                    ),
                   ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => StudentDetails()),
+                    );
+                  },
                 ),
               ],
             ),
@@ -259,6 +284,34 @@ class HomePage extends StatelessWidget {
             ),
 
             const SizedBox(height: 40),
+            // Add News Content text at the end of the column
+            const Text(
+              "News",
+              style: TextStyle(
+                fontSize: 20,
+
+                fontFamily: "BebasNeue",
+                color: Color(0xFFD92095),
+              ),
+            ),
+            const Text(
+              "News Content will appear here later",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+
+            const SizedBox(height: 20),
+            const Text(
+              "Notices",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: "BebasNeue",
+                color: Color(0xFFD92095),
+              ),
+            ),
+            const Text(
+              "Notices Will appear here later",
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
           ],
         ),
       ),
