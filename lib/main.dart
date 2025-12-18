@@ -294,11 +294,16 @@ class HomePage extends StatelessWidget {
                 color: Color(0xFFD92095),
               ),
             ),
-            const Text(
-              "News Content will appear here later",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Column(
+              children: [
+                Column(
+                  children: [
+                    Image.asset('assets/images/247_library_closure.png'),
+                    SizedBox(height: 10),
+                  ],
+                ),
+              ],
             ),
-
             const SizedBox(height: 20),
             const Text(
               "Notices",
