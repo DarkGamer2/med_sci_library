@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:med_sci_library/settings.dart';
+import 'package:med_sci_library/settings.dart' hide ThemeController;
 import 'package:med_sci_library/new_acquisitions.dart';
 import 'package:med_sci_library/book_details.dart';
 import 'package:med_sci_library/services.dart';
 import 'package:med_sci_library/student_details.dart';
 import 'package:med_sci_library/resources.dart';
+import 'package:med_sci_library/theme/controller.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await ThemeController.init();
   runApp(const MyApp());
 }
 
@@ -15,19 +18,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Medical Sciences Library',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFD92095)),
-        fontFamily: 'Roboto',
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const MainScreen(),
-      routes: {
-        '/settings': (context) => const SettingsPage(),
-        '/home': (context) => const MainScreen(),
-        '/services': (context) => const ServicesPage(),
+    return ValueListenableBuilder<ThemeMode>(
+      valueListenable: ThemeController.themeMode,
+      builder: (_, mode, __) {
+        return MaterialApp(
+          title: 'Medical Sciences Library',
+          theme: ThemeData.light().copyWith(
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              backgroundColor: Colors.white,
+              selectedItemColor: Color(0xFFD92095),
+            ),
+          ),
+          darkTheme: ThemeData.dark().copyWith(
+            bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+              backgroundColor: Colors.black,
+              selectedItemColor: Color(0xFFD92095),
+            ),
+          ),
+          themeMode: mode,
+          debugShowCheckedModeBanner: false,
+          home: const MainScreen(),
+          routes: {
+            '/settings': (context) => const SettingsPage(),
+            '/home': (context) => const MainScreen(),
+            '/services': (context) => const ServicesPage(),
+          },
+        );
       },
     );
   }
@@ -212,9 +228,10 @@ class HomePage extends StatelessWidget {
               child: Text(
                 'New Acquisitions',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "Inter",
+                  fontSize: 20,
+
+                  fontFamily: "BebasNeue",
+                  color: Color(0xFFD92095),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -299,23 +316,36 @@ class HomePage extends StatelessWidget {
                 Column(
                   children: [
                     Image.asset('assets/images/247_library_closure.png'),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
+                    Image.asset('assets/images/linx.png'),
+                    const SizedBox(height: 10),
+                    Image.asset('assets/images/Thesis-Bootcamp-eflyer.jpg'),
+                    const SizedBox(height: 10),
                   ],
                 ),
               ],
             ),
             const SizedBox(height: 20),
             const Text(
-              "Notices",
+              "Quick Links",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: "BebasNeue",
                 color: Color(0xFFD92095),
               ),
             ),
-            const Text(
-              "Notices Will appear here later",
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Column(
+              children: [
+                Column(
+                  children: [
+                    Text("UWISpace"),
+                    Text("UWIScholar"),
+                    Text("Device Loans"),
+                    Text("Curbside Services"),
+                    Text("Library Clearance"),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
