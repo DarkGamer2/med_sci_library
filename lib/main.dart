@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:med_sci_library/settings.dart' hide ThemeController;
 import 'package:med_sci_library/new_acquisitions.dart';
-import 'package:med_sci_library/book_details.dart';
 import 'package:med_sci_library/services.dart';
-import 'package:med_sci_library/student_details.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:med_sci_library/resources.dart';
 import 'package:med_sci_library/theme/controller.dart';
 
@@ -138,20 +137,20 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                IconButton(
-                  icon: CircleAvatar(
-                    radius: 24,
-                    backgroundImage: AssetImage(
-                      'assets/images/istockphoto-1444077739-612x612.jpg',
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => StudentDetails()),
-                    );
-                  },
-                ),
+                // IconButton(
+                //   icon: CircleAvatar(
+                //     radius: 24,
+                //     backgroundImage: AssetImage(
+                //       'assets/images/istockphoto-1444077739-612x612.jpg',
+                //     ),
+                //   ),
+                //   onPressed: () {
+                //     Navigator.push(
+                //       context,
+                //       MaterialPageRoute(builder: (context) => StudentDetails()),
+                //     );
+                //   },
+                // ),
               ],
             ),
             const SizedBox(height: 20),
@@ -168,56 +167,83 @@ class HomePage extends StatelessWidget {
             ),
 
             const SizedBox(height: 30),
-
-            // Section: Outstanding Books
             const Align(
               alignment: Alignment.center,
               child: Text(
-                'Your Outstanding Books',
+                'Medical Databases',
                 style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: "Inter",
+                  fontSize: 20,
+
+                  fontFamily: "BebasNeue",
+                  color: Color(0xFFD92095),
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 12),
-            SizedBox(
-              height: 140,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children:
-                    books.map((book) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 12),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => BookDetails(
-                                      title: book['title']!,
-                                      author: book['author']!,
-                                      image: book['image']!,
-                                    ),
-                              ),
-                            );
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.asset(
-                              book['image']!,
-                              width: 90,
-                              height: 130,
-                              fit: BoxFit.cover,
-                            ),
+            GridView.count(
+              crossAxisCount: 3, // 3 in a row
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children:
+                  [
+                    {
+                      'image': 'assets/images/Vl1d-4Oo_400x400.png',
+                      'url': 'https://pharmacylibrary.com/',
+                    },
+                    {
+                      'image':
+                          'assets/images/ebsco-ind-business-overview-cinahl-logo.jpg',
+                      'url':
+                          'https://research.ebsco.com/c/wh7wqj/search?defaultdb=ccm',
+                    },
+                    {
+                      'image': 'assets/images/dentistry_database.jpg',
+                      'url':
+                          'https://research.ebsco.com/c/wh7wqj/search?defaultdb=ddh',
+                    },
+                    {
+                      'image':
+                          'assets/images/IMG-Micromedex-Web-Lead-015-1104x552.jpg',
+                      'url':
+                          'https://www.micromedexsolutions.com/home/dispatch/',
+                    },
+                    {
+                      'image': 'assets/images/uptodatelogo3.png',
+                      'url':
+                          'https://www.uptodate.com/contents/search?srcsys=EZPX311562',
+                    },
+                    {
+                      'image': 'assets/images/vetlexicon-ikona1.png',
+                      'url': 'https://www.vetlexicon.com/',
+                    },
+                  ].map((item) {
+                    return GestureDetector(
+                      onTap: () async {
+                        final Uri uri = Uri.parse(item['url']!);
+                        if (await canLaunchUrl(uri)) {
+                          await launchUrl(
+                            uri,
+                            mode: LaunchMode.externalApplication,
+                          );
+                        }
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          color: Colors.grey[200],
+                          child: Image.asset(
+                            item['image']!,
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: 140,
                           ),
                         ),
-                      );
-                    }).toList(),
-              ),
+                      ),
+                    );
+                  }).toList(),
             ),
 
             const SizedBox(height: 30),
@@ -312,38 +338,120 @@ class HomePage extends StatelessWidget {
               ),
             ),
             Column(
-              children: [
-                Column(
-                  children: [
-                    Image.asset('assets/images/247_library_closure.png'),
-                    const SizedBox(height: 10),
-                    Image.asset('assets/images/linx.png'),
-                    const SizedBox(height: 10),
-                    Image.asset('assets/images/Thesis-Bootcamp-eflyer.jpg'),
-                    const SizedBox(height: 10),
-                  ],
-                ),
-              ],
+              children:
+                  [
+                    {
+                      'image': 'assets/images/jan_msl_vacation.png',
+                      'url':
+                          'https://libraries.sta.uwi.edu/msl/images/notice/2026_Jan_MSL_Vacation_Hours.pdf',
+                    },
+                    {
+                      'image': 'assets/images/msl_instagram.png',
+                      'url':
+                          'https://libraries.sta.uwi.edu/msl/images/notice/msl_instagram.png',
+                    },
+                    {
+                      'image': 'assets/images/Thesis-Bootcamp-eflyer.jpg',
+                      'url':
+                          'https://libraries.sta.uwi.edu/msl/images/notice/Thesis-Bootcamp-eflyer.pdf',
+                    },
+                    {
+                      'image': 'assets/images/fms_research.png',
+                      'url':
+                          'https://libraries.sta.uwi.edu/msl/images/notice/FMS_RESEARCH_DISCUSSION_SERIES_Sign_Up_Flyer.pdf',
+                    },
+                  ].map((item) {
+                    return Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            final Uri uri = Uri.parse(item['url']!);
+                            if (await canLaunchUrl(uri)) {
+                              await launchUrl(
+                                uri,
+                                mode: LaunchMode.externalApplication,
+                              );
+                            }
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Container(
+                              child: Image.asset(
+                                item['image']!,
+                                fit: BoxFit.contain,
+                                width: double.infinity,
+                                height: 140,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    );
+                  }).toList(),
             ),
             const SizedBox(height: 20),
-            const Text(
-              "Quick Links",
-              style: TextStyle(
-                fontSize: 20,
-                fontFamily: "BebasNeue",
-                color: Color(0xFFD92095),
-              ),
-            ),
-            Column(
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    Text("UWISpace"),
-                    Text("UWIScholar"),
-                    Text("Device Loans"),
-                    Text("Curbside Services"),
-                    Text("Library Clearance"),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Quick Links",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "BebasNeue",
+                          color: Color(0xFFD92095),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text("UWISpace"),
+                      Text("UWIScholar"),
+                      Text("Device Loans"),
+                      Text("Curbside Services"),
+                      Text("Library Clearance"),
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Useful Services",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "BebasNeue",
+                          color: Color(0xFFD92095),
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text("Book a Study Room"),
+                      Text("Ask a Librarian"),
+                      Text("Interlibrary Loan"),
+                      Text("Research Consultations"),
+                      Text("Workshops & Training"),
+                    ],
+                  ),
+                ),
+
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        "Research",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontFamily: "BebasNeue",
+                          color: Color(0xFFD92095),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

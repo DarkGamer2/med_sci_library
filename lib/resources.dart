@@ -29,5 +29,3 @@ class Resources extends StatelessWidget {
     );
   }
 }
-
-class ServiceCard {}
