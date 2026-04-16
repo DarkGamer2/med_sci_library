@@ -11,8 +11,14 @@ class ServicesPage extends StatelessWidget {
     'medlib_chat': Uri.parse(
       "https://libraries.sta.uwi.edu/msl/images/notice/Flyer_MEDLIB_Chat.pdf",
     ),
-    'calendar': Uri.parse("https://example.com/calendar"),
-    'videos': Uri.parse("https://example.com/videos"),
+    'calendar': Uri.parse(
+        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-calendar"),
+    'videos': Uri.parse(
+        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-videos"),
+    'presentations': Uri.parse(
+        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/training-presentations"),
+    'medlib_chat': Uri.parse(
+        'chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://libraries.sta.uwi.edu/msl/images/notice/Flyer_MEDLIB_Chat.pdf')
   };
 
   final List<Map<String, dynamic>> _services = const [
