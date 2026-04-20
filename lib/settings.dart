@@ -27,6 +27,20 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool isDarkMode = false;
+  double fontSize = 18.0;
+
+  double _mapFontSize(String value) {
+    switch (value) {
+      case 'Small':
+        return 12.0;
+      case 'Medium':
+        return 18.0;
+      case 'Large':
+        return 24.0;
+      default:
+        return 18.0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +65,10 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const SizedBox(height: 20),
                 ListTile(
-                  title: const Text("Dark Mode"),
+                  title: Text(
+                    "Dark Mode",
+                    style: TextStyle(fontSize: fontSize),
+                  ),
                   trailing: ValueListenableBuilder<ThemeMode>(
                     valueListenable: ThemeController.themeMode,
                     builder: (_, mode, __) {
@@ -69,6 +86,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   title: const Text('Font Size'),
                   trailing: DropdownMenu<String>(
                     dropdownMenuEntries: dropdownMenuEntries,
+
+                    onSelected: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          fontSize = _mapFontSize(newValue);
+                        });
+                      }
+                    },
                   ),
                   onTap: () {
                     // Handle font size change

@@ -12,13 +12,53 @@ class ServicesPage extends StatelessWidget {
       "https://libraries.sta.uwi.edu/msl/images/notice/Flyer_MEDLIB_Chat.pdf",
     ),
     'calendar': Uri.parse(
-        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-calendar"),
+      "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-calendar",
+    ),
     'videos': Uri.parse(
-        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-videos"),
+      "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/library-training-videos",
+    ),
     'presentations': Uri.parse(
-        "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/training-presentations"),
-    'medlib_chat': Uri.parse(
-        'chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://libraries.sta.uwi.edu/msl/images/notice/Flyer_MEDLIB_Chat.pdf')
+      "https://libraries.sta.uwi.edu/msl/index.php/library-services/information-literacy-training/training-presentations",
+    ),
+    'ask_a_librarian': Uri.parse(
+      'https://libraries.sta.uwi.edu/apps/index.php/AskaLibrarian/index',
+    ),
+    'loans': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/index.php/library-services/borrowing',
+    ),
+    'connect_campus': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/index.php/library-services/connect-from-off-campus',
+    ),
+    'systematic_reviews_flyer': Uri.parse(
+      "https://libraries.sta.uwi.edu/msl/images/notice/Systematic_Review_2.pdf",
+    ),
+    'systematic_reviews_training': Uri.parse(
+      "https://libraries.sta.uwi.edu/msl/images/notice/Systematic_reviews_and_meta_analysis_2020.pdf",
+    ),
+    'document_delivery_cmtf': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/images/notice/DocumentDeliveryServiceMSLCMTF_Jun2023.pdf',
+    ),
+    'document_delivery_email': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/index.php/library-services/document-delivery-service/document-delivery-service-2',
+    ),
+    'clearance_form': Uri.parse(
+      'https://libraries.sta.uwi.edu/libraryForms/view/5/1',
+    ),
+    'msl_remote_services': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/images/notice/ServicesforRemoteStudents.pdf',
+    ),
+    'services_for_alumni': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/index.php/library-services/services-for-alumni',
+    ),
+    'device_loans_laptop_tablets': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/images/notice/Device_Loans_Flyer_2025.pdf',
+    ),
+    'device_loans_mifi': Uri.parse(
+      "https://libraries.sta.uwi.edu/msl/images/notice/MIFI-DEVICE-BROCHURE.pdf",
+    ),
+    'computer_lab_clinic': Uri.parse(
+      "https://libraries.sta.uwi.edu/msl/images/notice/Walk_in_Clinic.pdf",
+    ),
   };
 
   final List<Map<String, dynamic>> _services = const [
@@ -92,7 +132,10 @@ class ServicesPage extends StatelessWidget {
                     "Library Training Videos",
                     () => _handleLaunch(_links['videos']!),
                   ),
-                  _linkButton("Training Presentations", () {}),
+                  _linkButton(
+                    "Training Presentations",
+                    () => _handleLaunch(_links['presentations']!),
+                  ),
                 ],
               ),
 
@@ -112,7 +155,7 @@ class ServicesPage extends StatelessWidget {
               _buildActionCard(
                 child: _linkButton(
                   "Ask A Librarian",
-                  () => _handleLaunch(_links['medlib_chat']!),
+                  () => _handleLaunch(_links['ask_a_librarian']!),
                 ),
               ),
 
@@ -122,7 +165,7 @@ class ServicesPage extends StatelessWidget {
               _buildActionCard(
                 child: _linkButton(
                   "How To Pay Fines",
-                  () => _handleLaunch(_links['medlib_chat']!),
+                  () => _handleLaunch(_links['loans']!),
                 ),
               ),
 
@@ -131,8 +174,14 @@ class ServicesPage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 buttons: [
-                  _linkButton("Systematic Reviews Flyer", () {}),
-                  _linkButton("Systematic Reviews Training", () {}),
+                  _linkButton(
+                    "Systematic Reviews Flyer",
+                    () => _handleLaunch(_links['systematic_reviews_flyer']!),
+                  ),
+                  _linkButton(
+                    "Systematic Reviews Training",
+                    () => _handleLaunch(_links['systematic_reviews_training']!),
+                  ),
                 ],
               ),
 
@@ -141,23 +190,33 @@ class ServicesPage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 buttons: [
-                  _linkButton("Document Delivery Service CMTF", () {}),
-                  _linkButton("Document Delivery Service Email", () {}),
+                  _linkButton(
+                    "Document Delivery Service CMTF",
+                    () => _handleLaunch(_links['document_delivery_cmtf']!),
+                  ),
+                  _linkButton(
+                    "Document Delivery Service Email",
+                    () => _handleLaunch(_links['document_delivery_email']!),
+                  ),
                 ],
               ),
 
               const SizedBox(height: 24),
               _buildSectionHeader('Library Clearance'),
               const SizedBox(height: 16),
-              _buildActionCard(child: _linkButton("Request Clearance", () {})),
+              _buildActionCard(
+                child: _linkButton("Request Clearance", () {
+                  _handleLaunch(_links['clearance_form']!);
+                }),
+              ),
 
               const SizedBox(height: 24),
               _buildSectionHeader("MSL Remote Services"),
               const SizedBox(height: 16),
               _buildActionCard(
                 child: _linkButton(
-                  "Chat with a Librarian",
-                  () => _handleLaunch(_links['medlib_chat']!),
+                  "View Remote Services",
+                  () => _handleLaunch(_links['msl_remote_services']!),
                 ),
               ),
 
@@ -166,8 +225,8 @@ class ServicesPage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 child: _linkButton(
-                  "Chat with a Librarian",
-                  () => _handleLaunch(_links['medlib_chat']!),
+                  "View Services",
+                  () => _handleLaunch(_links['services_for_alumni']!),
                 ),
               ),
 
@@ -176,8 +235,14 @@ class ServicesPage extends StatelessWidget {
               const SizedBox(height: 16),
               _buildActionCard(
                 buttons: [
-                  _linkButton("Laptop & Tablets", () {}),
-                  _linkButton("Mifi Devices", () {}),
+                  _linkButton(
+                    "Laptop & Tablets",
+                    () => _handleLaunch(_links['device_loans_laptop_tablets']!),
+                  ),
+                  _linkButton(
+                    "Mifi Devices",
+                    () => _handleLaunch(_links['device_loans_mifi']!),
+                  ),
                 ],
               ),
 
@@ -187,7 +252,7 @@ class ServicesPage extends StatelessWidget {
               _buildActionCard(
                 child: _linkButton(
                   "Visit",
-                  () => _handleLaunch(_links['medlib_chat']!),
+                  () => _handleLaunch(_links['computer_lab_clinic']!),
                 ),
               ),
 
