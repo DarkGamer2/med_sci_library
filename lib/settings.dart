@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_sci_library/fonts/controller.dart';
 
 // Theme Controller to manage theme state
 class ThemeController {
@@ -11,11 +12,12 @@ class ThemeController {
   }
 }
 
-// Define dropdown menu entries for font size selection
 final List<DropdownMenuEntry<String>> dropdownMenuEntries = [
-  DropdownMenuEntry(value: 'Small', label: '12'),
+  DropdownMenuEntry(value: 'Extra Small', label: '12'),
+  DropdownMenuEntry(value: 'Small', label: '14'),
   DropdownMenuEntry(value: 'Medium', label: '18'),
   DropdownMenuEntry(value: 'Large', label: '24'),
+  DropdownMenuEntry(value: 'Extra Large', label: '30'),
 ];
 
 class SettingsPage extends StatefulWidget {
@@ -26,117 +28,120 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool isDarkMode = false;
-  double fontSize = 18.0;
-
-  double _mapFontSize(String value) {
-    switch (value) {
-      case 'Small':
-        return 12.0;
-      case 'Medium':
-        return 18.0;
-      case 'Large':
-        return 24.0;
-      default:
-        return 18.0;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: isDarkMode ? ThemeData.dark() : ThemeData.light(),
-      child: Scaffold(
-        body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: const Text(
-                    'Settings',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontFamily: "BebasNeue",
-                      color: Color(0xFFD92095),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ListTile(
-                  title: Text(
-                    "Dark Mode",
-                    style: TextStyle(fontSize: fontSize),
-                  ),
-                  trailing: ValueListenableBuilder<ThemeMode>(
-                    valueListenable: ThemeController.themeMode,
-                    builder: (_, mode, __) {
-                      final isDark = mode == ThemeMode.dark;
-                      return Switch(
-                        value: isDark,
-                        onChanged: (bool value) {
-                          ThemeController.setDark(value);
-                        },
-                      );
-                    },
-                  ),
-                ),
-                ListTile(
-                  title: const Text('Font Size'),
-                  trailing: DropdownMenu<String>(
-                    dropdownMenuEntries: dropdownMenuEntries,
+    // 1. Wrap EVERYTHING in the Font Builder so the variable is available everywhere
+    return ValueListenableBuilder<double>(
+      valueListenable: FontSizeController.fontSize,
+      builder: (context, currentSize, child) {
+        // 2. Also listen to ThemeController so the UI updates when you toggle Dark Mode
+        return ValueListenableBuilder<ThemeMode>(
+          valueListenable: ThemeController.themeMode,
+          builder: (context, mode, child) {
+            return Theme(
+              data:
+                  mode == ThemeMode.dark ? ThemeData.dark() : ThemeData.light(),
+              child: Scaffold(
+                body: SafeArea(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Center(
+                          child: Text(
+                            'Settings',
+                            style: TextStyle(
+                              fontSize: 24, // Headers usually stay consistent
+                              fontFamily: "BebasNeue",
+                              color: Color(0xFFD92095),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
 
-                    onSelected: (String? newValue) {
-                      if (newValue != null) {
-                        setState(() {
-                          fontSize = _mapFontSize(newValue);
-                        });
-                      }
-                    },
-                  ),
-                  onTap: () {
-                    // Handle font size change
-                  },
-                ),
-                ListTile(
-                  title: const Text('Notification Settings'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Navigate to notification settings page
-                  },
-                ),
-                ListTile(
-                  title: const Text('Privacy Policy'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Navigate to privacy policy page
-                  },
-                ),
-                ListTile(
-                  title: const Text('Terms of Service'),
-                  trailing: const Icon(Icons.arrow_forward_ios),
-                  onTap: () {
-                    // Navigate to terms of service page
-                  },
-                ),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Handle save settings action
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFFD92095),
-                      foregroundColor: Colors.white,
+                        // DARK MODE TILE
+                        ListTile(
+                          title: Text(
+                            "Dark Mode",
+                            style: TextStyle(fontSize: currentSize),
+                          ),
+                          trailing: Switch(
+                            value: mode == ThemeMode.dark,
+                            onChanged:
+                                (bool value) => ThemeController.setDark(value),
+                          ),
+                        ),
+
+                        // FONT SIZE TILE
+                        ListTile(
+                          title: Text(
+                            'Font Size',
+                            style: TextStyle(fontSize: currentSize),
+                          ),
+                          trailing: DropdownMenu<String>(
+                            dropdownMenuEntries: dropdownMenuEntries,
+                            // Set this to 'Medium' so it matches your controller's default
+                            initialSelection: 'Medium',
+                            label: const Text('Size'),
+                            onSelected: (String? newValue) {
+                              if (newValue != null) {
+                                // Update the global controller
+                                FontSizeController.setFontSize(newValue);
+                              }
+                            },
+                          ),
+                        ),
+
+                        // OTHER TILES (Now using currentSize correctly)
+                        ListTile(
+                          title: Text(
+                            'Notification Settings',
+                            style: TextStyle(fontSize: currentSize),
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Privacy Policy',
+                            style: TextStyle(fontSize: currentSize),
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+                        ListTile(
+                          title: Text(
+                            'Terms of Service',
+                            style: TextStyle(fontSize: currentSize),
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          onTap: () {},
+                        ),
+
+                        const SizedBox(height: 30),
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFD92095),
+                              foregroundColor: Colors.white,
+                            ),
+                            child: Text(
+                              'Logout',
+                              style: TextStyle(fontSize: currentSize),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    child: const Text('Logout'),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

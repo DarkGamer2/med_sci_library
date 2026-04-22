@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:med_sci_library/fonts/controller.dart';
 
 class Resources extends StatelessWidget {
   const Resources({super.key});
@@ -15,11 +16,16 @@ class Resources extends StatelessWidget {
     'eBooks': Uri.parse(
       'https://libraries.sta.uwi.edu/msl/index.php/library-resources/ebooks',
     ),
+    // Added the missing 'Research' key to prevent the null-check error
+    'Research': Uri.parse(
+      'https://libraries.sta.uwi.edu/msl/index.php/research-support',
+    ),
   };
 
   static const primaryPink = Color(0xFFD92095);
 
-  Future<void> _handleLaunch(Uri url) async {
+  Future<void> _handleLaunch(Uri? url) async {
+    if (url == null) return;
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       debugPrint('Could not launch $url');
     }
@@ -27,95 +33,101 @@ class Resources extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: const Text(
-          "LIBRARY RESOURCES",
-          style: TextStyle(
-            fontFamily: "BebasNeue",
-            color: primaryPink,
-            letterSpacing: 1.2,
+    return ValueListenableBuilder<double>(
+      valueListenable: FontSizeController.fontSize,
+      builder: (context, currentFontSize, _) {
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FA),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            title: Text(
+              "LIBRARY RESOURCES",
+              style: TextStyle(
+                fontFamily: "BebasNeue",
+                color: primaryPink,
+                letterSpacing: 1.2,
+                fontSize: currentFontSize,
+              ),
+            ),
           ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSectionLabel("AVAILABLE ONLINE"),
-              const SizedBox(height: 16),
-              _ResourceTile(
-                title: "Databases",
-                subtitle: "Access the full Databases A-Z List",
-                icon: Icons.storage_rounded,
-                onTap: () => _handleLaunch(_links['databases']!),
+          body: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionLabel("AVAILABLE ONLINE"),
+                  const SizedBox(height: 16),
+                  _ResourceTile(
+                    title: "Databases",
+                    subtitle: "Access the full Databases A-Z List",
+                    icon: Icons.storage_rounded,
+                    onTap: () => _handleLaunch(_links['databases']),
+                  ),
+                  _ResourceTile(
+                    title: "Journals",
+                    subtitle: "Browse our collection of E-Journals",
+                    icon: Icons.menu_book_rounded,
+                    onTap: () => _handleLaunch(_links['eJournals']),
+                  ),
+                  _ResourceTile(
+                    title: "Journal Coverage",
+                    subtitle: "Database Journal A-Z Coverage List",
+                    icon: Icons.find_in_page_rounded,
+                    onTap: () => _handleLaunch(_links['journalCoverage']),
+                  ),
+                  _ResourceTile(
+                    title: "E-Books",
+                    subtitle: "View and borrow digital textbooks",
+                    icon: Icons.tablet_android_rounded,
+                    onTap: () => _handleLaunch(_links['eBooks']),
+                  ),
+                  _ResourceTile(
+                    title: "Research & Scholarship",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                  _ResourceTile(
+                    title: "Academic Writing Style",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                  _ResourceTile(
+                    title: "Writing For Publication",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                  _ResourceTile(
+                    title: "New Titles",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                  _ResourceTile(
+                    title: "Medical Sciences Apps",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                  _ResourceTile(
+                    title: "Research Guides",
+                    subtitle: "Research",
+                    icon: Icons.book_online,
+                    onTap: () => _handleLaunch(_links['Research']),
+                  ),
+                ],
               ),
-              _ResourceTile(
-                title: "Journals",
-                subtitle: "Browse our collection of E-Journals",
-                icon: Icons.menu_book_rounded,
-                onTap: () => _handleLaunch(_links['eJournals']!),
-              ),
-              _ResourceTile(
-                title: "Journal Coverage",
-                subtitle: "Database Journal A-Z Coverage List",
-                icon: Icons.find_in_page_rounded,
-                onTap: () => _handleLaunch(_links['journalCoverage']!),
-              ),
-              _ResourceTile(
-                title: "E-Books",
-                subtitle: "View and borrow digital textbooks",
-                icon: Icons.tablet_android_rounded,
-                onTap: () => _handleLaunch(_links['eBooks']!),
-              ),
-              _ResourceTile(
-                title: "Research & Scholarship",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-              _ResourceTile(
-                title: "Academic Writing Style",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-              _ResourceTile(
-                title: "Writing For Publication",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-              _ResourceTile(
-                title: "New Titles",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-              _ResourceTile(
-                title: "Medical Sciences Apps",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-              _ResourceTile(
-                title: "Research Guides",
-                subtitle: "Research",
-                icon: Icons.book_online,
-                onTap: () => _handleLaunch(_links['Research']!),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      }, // Properly closed the builder
+    ); // Properly closed the ValueListenableBuilder
   }
 
   Widget _buildSectionLabel(String text) {
@@ -153,7 +165,6 @@ class _ResourceTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            // Updated to withValues
             color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
@@ -165,7 +176,6 @@ class _ResourceTile extends StatelessWidget {
         leading: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            // Updated to withValues
             color: const Color(0xFFD92095).withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
