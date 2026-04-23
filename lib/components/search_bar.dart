@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-class Search extends StatefulWidget {
-  const Search({super.key});
+class SearchBar extends StatefulWidget {
+  const SearchBar({super.key});
 
   @override
-  State<Search> createState() => _SearchState();
+  State<SearchBar> createState() => _SearchState();
 }
 
-class _SearchState extends State<Search> {
+class _SearchState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

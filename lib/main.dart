@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:med_sci_library/resources.dart';
 import 'package:med_sci_library/theme/controller.dart';
 import 'package:med_sci_library/quick_links.dart';
+import 'package:med_sci_library/search.dart';
 
 final Uri _quicklink1 = Uri.parse(
   'https://libraries.sta.uwi.edu/msl/images/notice/AssociateCI_Preceptors_v4.png',
@@ -52,8 +53,10 @@ class MyApp extends StatelessWidget {
           home: const MainScreen(),
           routes: {
             '/settings': (context) => const SettingsPage(),
+            '/search': (context) => const Search(),
             '/home': (context) => const MainScreen(),
             '/services': (context) => const ServicesPage(),
+            '/resources': (context) => const Resources(),
           },
         );
       },
@@ -73,6 +76,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _pages = [
     const HomePage(),
+    const Search(),
     const Resources(),
     const ServicesPage(),
     const SettingsPage(),
@@ -96,6 +100,7 @@ class _MainScreenState extends State<MainScreen> {
         onTap: _onItemTapped,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.location_on), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),
             label: 'Resources',
