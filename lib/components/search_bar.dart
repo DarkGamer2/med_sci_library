@@ -1,52 +1,21 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
-  const SearchBar({super.key});
-
-  @override
-  State<SearchBar> createState() => _SearchState();
-}
-
-class _SearchState extends State<SearchBar> {
+class SearchBarComponent extends StatelessWidget {
+  const SearchBarComponent({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("Search")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SearchAnchor(
-          builder: (BuildContext context, SearchController controller) {
-            return SearchBar(
-              controller: controller,
-              padding: const WidgetStatePropertyAll<EdgeInsets>(
-                EdgeInsets.symmetric(horizontal: 16.0),
-              ),
-              onTap: () {
-                controller.openView();
-              },
-              onChanged: (_) {
-                controller.openView();
-              },
-              leading: const Icon(Icons.search),
-            );
-          },
-          suggestionsBuilder: (
-            BuildContext context,
-            SearchController controller,
-          ) {
-            // This needs to return a list of widgets (the search results)
-            return List<ListTile>.generate(5, (int index) {
-              final String item = 'Suggestion $index';
-              return ListTile(
-                title: Text(item),
-                onTap: () {
-                  setState(() {
-                    controller.closeView(item);
-                  });
-                },
-              );
-            });
-          },
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: SafeArea(
+        child: TextField(
+          autofocus: true,
+          decoration: InputDecoration(
+            hintText: 'Search...',
+            prefixIcon: Icon(Icons.search),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+            ),
+          ),
         ),
       ),
     );
