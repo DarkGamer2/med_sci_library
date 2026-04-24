@@ -5,11 +5,13 @@ import 'package:med_sci_library/models/notice.dart';
 import 'package:med_sci_library/settings.dart' hide ThemeController;
 import 'package:med_sci_library/new_acquisitions.dart';
 import 'package:med_sci_library/services.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:med_sci_library/resources.dart';
 import 'package:med_sci_library/theme/controller.dart';
 import 'package:med_sci_library/quick_links.dart';
 import 'package:med_sci_library/search.dart';
+import 'package:med_sci_library/store_search_logic.dart';
 
 final Uri _quicklink1 = Uri.parse(
   'https://libraries.sta.uwi.edu/msl/images/notice/AssociateCI_Preceptors_v4.png',
@@ -23,7 +25,12 @@ final Uri _quicklink4 = Uri.parse('https://uwischolar.sta.uwi.edu/');
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ThemeController.init();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => SearchProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
