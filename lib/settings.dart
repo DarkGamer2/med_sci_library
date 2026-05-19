@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:med_sci_library/fonts/controller.dart';
-
+import 'package:med_sci_library/theme/controller.dart';
 // Theme Controller to manage theme state
-class ThemeController {
-  static final ValueNotifier<ThemeMode> themeMode = ValueNotifier(
-    ThemeMode.light,
-  );
-
-  static void setDark(bool isDark) {
-    themeMode.value = isDark ? ThemeMode.dark : ThemeMode.light;
-  }
-}
 
 final List<DropdownMenuEntry<String>> dropdownMenuEntries = [
   DropdownMenuEntry(value: 'Extra Small', label: '12'),

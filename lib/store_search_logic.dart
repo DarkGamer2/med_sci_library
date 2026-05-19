@@ -4,6 +4,12 @@ import 'package:med_sci_library/models/data.dart';
 class SearchProvider extends ChangeNotifier {
   final List<AppContent> _allContent = [
     AppContent(title: 'Home', route: '/home', category: ""),
+    AppContent(title: 'Medical Databases', route: '/home', category: ""),
+    AppContent(
+      title: "New Acquisitions",
+      route: '/new_acquisitions',
+      category: "",
+    ),
   ];
   List<AppContent> _filteredResults = [];
   List<AppContent> get filteredResults => _filteredResults;
@@ -19,7 +25,7 @@ class SearchProvider extends ChangeNotifier {
                     item.title.toLowerCase().contains(query.toLowerCase()),
               )
               .toList();
-      notifyListeners();
     }
+    notifyListeners();
   }
 }

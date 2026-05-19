@@ -37,10 +37,10 @@ class Resources extends StatelessWidget {
       valueListenable: FontSizeController.fontSize,
       builder: (context, currentFontSize, _) {
         return Scaffold(
-          backgroundColor: const Color(0xFFF8F9FA),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
             centerTitle: true,
             title: Text(
               "LIBRARY RESOURCES",
@@ -161,7 +161,7 @@ class _ResourceTile extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(

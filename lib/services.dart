@@ -6,7 +6,6 @@ class ServicesPage extends StatelessWidget {
   const ServicesPage({super.key});
 
   static const primaryPink = Color(0xFFD92095);
-  static const backgroundColor = Color(0xFFF8F9FA);
 
   static final Map<String, Uri> _links = {
     'medlib_chat': Uri.parse(
@@ -98,10 +97,10 @@ class ServicesPage extends StatelessWidget {
       valueListenable: FontSizeController.fontSize,
       builder: (context, currentFontSize, _) {
         return Scaffold(
-          backgroundColor: backgroundColor,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
             centerTitle: true,
             title: Text(
               'LIBRARY SERVICES',
@@ -131,6 +130,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("INFORMATION SKILLS TRAINING"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     buttons: [
                       _linkButton(
                         "Library Training Calendar",
@@ -154,6 +154,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("Reference Services"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "Chat with a Librarian",
                       () => _handleLaunch(_links['medlib_chat']!),
@@ -165,6 +166,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("Ask A Librarian"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "Ask A Librarian",
                       () => _handleLaunch(_links['ask_a_librarian']!),
@@ -176,6 +178,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader('Loans, Returns & Fines'),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "How To Pay Fines",
                       () => _handleLaunch(_links['loans']!),
@@ -187,6 +190,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader('Systematic Reviews'),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     buttons: [
                       _linkButton(
                         "Systematic Reviews Flyer",
@@ -208,6 +212,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("Document Delivery Service"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     buttons: [
                       _linkButton(
                         "Document Delivery Service CMTF",
@@ -226,6 +231,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader('Library Clearance'),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "Request Clearance",
                       () => _handleLaunch(_links['clearance_form']!),
@@ -237,6 +243,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("MSL Remote Services"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "View Remote Services",
                       () => _handleLaunch(_links['msl_remote_services']!),
@@ -248,6 +255,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("Services For Alumni"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "View Services",
                       () => _handleLaunch(_links['services_for_alumni']!),
@@ -259,6 +267,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader('Device Loans'),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     buttons: [
                       _linkButton(
                         "Laptop & Tablets",
@@ -279,6 +288,7 @@ class ServicesPage extends StatelessWidget {
                   _buildSectionHeader("Computer Lab Walk-In Clinic"),
                   const SizedBox(height: 16),
                   _buildActionCard(
+                    context,
                     child: _linkButton(
                       "Visit",
                       () => _handleLaunch(_links['computer_lab_clinic']!),
@@ -319,14 +329,18 @@ class ServicesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildActionCard({Widget? child, List<Widget>? buttons}) {
+  Widget _buildActionCard(
+    BuildContext context, {
+    Widget? child,
+    List<Widget>? buttons,
+  }) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: primaryPink.withOpacity(0.1)),
+        border: Border.all(color: primaryPink.withValues(alpha: 26)),
       ),
       child: Center(child: Column(children: buttons ?? [child!])),
     );
@@ -395,11 +409,11 @@ class ServiceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: const Color.fromRGBO(0, 0, 0, 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

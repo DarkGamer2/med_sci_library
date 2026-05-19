@@ -12,6 +12,7 @@ import 'package:med_sci_library/theme/controller.dart';
 import 'package:med_sci_library/quick_links.dart';
 import 'package:med_sci_library/search.dart';
 import 'package:med_sci_library/store_search_logic.dart';
+import 'package:med_sci_library/components/contact_us.dart';
 
 final Uri _quicklink1 = Uri.parse(
   'https://libraries.sta.uwi.edu/msl/images/notice/AssociateCI_Preceptors_v4.png',
@@ -35,7 +36,6 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<ThemeMode>(
@@ -43,19 +43,25 @@ class MyApp extends StatelessWidget {
       builder: (_, mode, __) {
         return MaterialApp(
           title: 'Medical Sciences Library',
+          // 1. Define your Light Theme
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.black,
+              seedColor: const Color(0xFFD92095),
               brightness: Brightness.light,
             ),
+            useMaterial3: true,
           ),
+          // 2. Define your Dark Theme
           darkTheme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.black,
+              seedColor: const Color(0xFFD92095),
               brightness: Brightness.dark,
             ),
+            useMaterial3: true,
           ),
-          themeMode: ThemeMode.system,
+          // 3. Tell the app which mode to use based on the toggle
+          themeMode: mode,
+
           debugShowCheckedModeBanner: false,
           home: const MainScreen(),
           routes: {
@@ -178,6 +184,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 20),
             _buildFullListButton(context),
             const SizedBox(height: 40),
+            const ContactUs(),
             _buildSectionTitle('News'),
             const SizedBox(height: 12),
             _buildNoticesSection(),
