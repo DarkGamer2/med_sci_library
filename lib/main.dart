@@ -13,6 +13,9 @@ import 'package:med_sci_library/quick_links.dart';
 import 'package:med_sci_library/search.dart';
 import 'package:med_sci_library/store_search_logic.dart';
 import 'package:med_sci_library/components/contact_us.dart';
+import 'package:med_sci_library/components/contact_card.dart';
+import "package:med_sci_library/models/contact.dart";
+import "package:med_sci_library/services/contact_service.dart";
 
 final Uri _quicklink1 = Uri.parse(
   'https://libraries.sta.uwi.edu/msl/images/notice/AssociateCI_Preceptors_v4.png',
@@ -70,6 +73,33 @@ class MyApp extends StatelessWidget {
             '/home': (context) => const MainScreen(),
             '/services': (context) => const ServicesPage(),
             '/resources': (context) => const Resources(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name != null &&
+                settings.name!.startsWith('/contact')) {
+              final parts = settings.name!.split('/');
+              final contactId = parts.last;
+              final contact = ContactService.getById(contactId);
+              if (contact == null) {
+                return MaterialPageRoute(
+                  builder:
+                      (_) => Scaffold(
+                        appBar: AppBar(title: Text('Contact not found')),
+                        body: Center(
+                          child: Text('No contact with id $contactId'),
+                        ),
+                      ),
+                );
+              }
+              return MaterialPageRoute(
+                builder:
+                    (_) => ContactCard(
+                      id: contactId,
+                      contact: contact,
+                      onTap: () {},
+                    ),
+              );
+            }
           },
         );
       },
